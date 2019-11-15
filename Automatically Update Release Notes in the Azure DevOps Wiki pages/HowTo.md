@@ -12,7 +12,7 @@
 - Install "Generate Release Notes Build Task" Extension from Visual Studio MArket place
   - Reference Link: https://marketplace.visualstudio.com/items?itemName=richardfennellBM.BM-VSTS-GenerateReleaseNotes-Task
 - Add below template in the 
-![Screenshot] (Generate Release Notes Build Task.png)    
+![Screenshot](Generate Release Notes Build Task.png)    
 ```html
 <p>**Build Number**  : $($build.buildnumber)    
 **Build started** : $("{0:dd/MM/yy HH:mm:ss}" -f [datetime]$build.startTime)     
@@ -30,14 +30,14 @@
 ```
 
 - Set "Output file" to "$(System.DefaultWorkingDirectory)\releasenotes.md"
-![Screenshot] (Generate Release Notes Build Task Config in pipeline.png)
+![Screenshot](Generate Release Notes Build Task Config in pipeline.png)
 
 
 - Add "Powershell Task" in the pipeline.
   - Reference Link : https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/powershell?view=azure-devops
 - Select "Inline" as Type in the task configuration.
 - Add the below inline code snippet.
-![Screenshot] (Powershell Script.png)
+![Screenshot](Powershell Script.png)
 ```html
 <p>$pat='$(AccessToken)'
 $token = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("PAT:$pat"))
