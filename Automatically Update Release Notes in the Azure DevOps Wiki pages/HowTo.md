@@ -13,9 +13,18 @@
 
 - Install "Generate Release Notes Build Task" Extension from Visual Studio MArket place
   - Reference Link: https://marketplace.visualstudio.com/items?itemName=richardfennellBM.BM-VSTS-GenerateReleaseNotes-Task
-- Add below template in the 
 
 ![alt text](https://github.com/kohithms/DevOpsCode/blob/master/Automatically%20Update%20Release%20Notes%20in%20the%20Azure%20DevOps%20Wiki%20pages/pics/Generate%20Release%20Notes%20Build%20Task.png)    
+
+- Add "Generate Release Notes for Pipeline Builds or Releases" Task in the pipeline. 
+
+
+![alt text](https://github.com/kohithms/DevOpsCode/blob/master/Automatically%20Update%20Release%20Notes%20in%20the%20Azure%20DevOps%20Wiki%20pages/pics/Generate%20Release%20Notes%20Build%20Task%20Config%20in%20pipeline.png)
+
+
+- Set "Output file" to "$(System.DefaultWorkingDirectory)\releasenotes.md"
+ - Add below template in the task "Tempalte" field
+
 
 
 ```html
@@ -33,17 +42,20 @@
 @@CSLOOP@@
 ```
 
-- Set "Output file" to "$(System.DefaultWorkingDirectory)\releasenotes.md"
 
-![alt text](https://github.com/kohithms/DevOpsCode/blob/master/Automatically%20Update%20Release%20Notes%20in%20the%20Azure%20DevOps%20Wiki%20pages/pics/Generate%20Release%20Notes%20Build%20Task%20Config%20in%20pipeline.png)
+
 
 - Add "Powershell Task" in the pipeline.
   - Reference Link : https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/powershell?view=azure-devops
+
+
 - Select "Inline" as Type in the task configuration.
 - Add the below inline code snippet.
 
 
+
 ![alt text](https://github.com/kohithms/DevOpsCode/blob/master/Automatically%20Update%20Release%20Notes%20in%20the%20Azure%20DevOps%20Wiki%20pages/pics/Powershell%20Script.png)
+
 
 
 ```html
@@ -59,3 +71,5 @@ $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0
 $urlAdd="https://dev.azure.com/{DevOpsOrganization}/{ProjectName}/_apis/wiki/wikis/{ProjectName}.wiki/pages/?path=/{MainFolderName}/{Sub folder Name 1}/(Build.buildnumber)-$(get-date -f MM-dd-yyyy_HH_mm_ss)&api-version=5.0"
 Invoke-WebRequest -Method PUT -Uri "$urlAdd" -Headers $headers -ContentType "application/json" -Body "$data"
 ```
+
+
