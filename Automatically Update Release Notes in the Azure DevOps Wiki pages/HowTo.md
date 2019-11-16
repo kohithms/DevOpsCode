@@ -8,13 +8,18 @@
 - Create a Personal Access Token in Azure DevOps organization. 
   - Refrence link: https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops
 - Add "Access Token" variable in the Piepline Variable.
-![Screenshot](SetAccesssToken.png)
+
+![alt text](https://github.com/kohithms/DevOpsCode/blob/master/Automatically%20Update%20Release%20Notes%20in%20the%20Azure%20DevOps%20Wiki%20pages/pics/SetAccesssToken.png)
+
 - Install "Generate Release Notes Build Task" Extension from Visual Studio MArket place
   - Reference Link: https://marketplace.visualstudio.com/items?itemName=richardfennellBM.BM-VSTS-GenerateReleaseNotes-Task
 - Add below template in the 
-![Screenshot](Generate Release Notes Build Task.png)    
+
+![alt text](https://github.com/kohithms/DevOpsCode/blob/master/Automatically%20Update%20Release%20Notes%20in%20the%20Azure%20DevOps%20Wiki%20pages/pics/Generate%20Release%20Notes%20Build%20Task.png)    
+
+
 ```html
-<p>**Build Number**  : $($build.buildnumber)    
+**Build Number**  : $($build.buildnumber)    
 **Build started** : $("{0:dd/MM/yy HH:mm:ss}" -f [datetime]$build.startTime)     
 **Source Branch** : $($build.sourceBranch)  
 ###Associated work items  
@@ -26,20 +31,23 @@
 * **ID $($csdetail.changesetid)$($csdetail.commitid)** 
   >$($csdetail.comment)    
 @@CSLOOP@@
-</p>
 ```
 
 - Set "Output file" to "$(System.DefaultWorkingDirectory)\releasenotes.md"
-![Screenshot](Generate Release Notes Build Task Config in pipeline.png)
 
+![alt text](https://github.com/kohithms/DevOpsCode/blob/master/Automatically%20Update%20Release%20Notes%20in%20the%20Azure%20DevOps%20Wiki%20pages/pics/Generate%20Release%20Notes%20Build%20Task%20Config%20in%20pipeline.png)
 
 - Add "Powershell Task" in the pipeline.
   - Reference Link : https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/powershell?view=azure-devops
 - Select "Inline" as Type in the task configuration.
 - Add the below inline code snippet.
-![Screenshot](Powershell Script.png)
+
+
+![alt text](https://github.com/kohithms/DevOpsCode/blob/master/Automatically%20Update%20Release%20Notes%20in%20the%20Azure%20DevOps%20Wiki%20pages/pics/Powershell%20Script.png)
+
+
 ```html
-<p>$pat='$(AccessToken)'
+$pat='$(AccessToken)'
 $token = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("PAT:$pat"))
 $headers = @{'Authorization' = "Basic $token"}
 $content = [IO.File]::ReadAllText("$(System.DefaultWorkingDirectory)\releasenotes.md")
@@ -50,6 +58,4 @@ $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0
 
 $urlAdd="https://dev.azure.com/{DevOpsOrganization}/{ProjectName}/_apis/wiki/wikis/{ProjectName}.wiki/pages/?path=/{MainFolderName}/{Sub folder Name 1}/(Build.buildnumber)-$(get-date -f MM-dd-yyyy_HH_mm_ss)&api-version=5.0"
 Invoke-WebRequest -Method PUT -Uri "$urlAdd" -Headers $headers -ContentType "application/json" -Body "$data"
-
-</p>
 ```
