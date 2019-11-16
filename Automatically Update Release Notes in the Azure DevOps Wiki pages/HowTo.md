@@ -16,6 +16,9 @@
 
 ![alt text](https://github.com/kohithms/DevOpsCode/blob/master/Automatically%20Update%20Release%20Notes%20in%20the%20Azure%20DevOps%20Wiki%20pages/pics/Generate%20Release%20Notes%20Build%20Task.png)    
 
+
+## Pipeline Configuration
+
 - Add "Generate Release Notes for Pipeline Builds or Releases" Task in the pipeline. 
 
 
@@ -53,11 +56,6 @@
 - Add the below inline code snippet.
 
 
-
-![alt text](https://github.com/kohithms/DevOpsCode/blob/master/Automatically%20Update%20Release%20Notes%20in%20the%20Azure%20DevOps%20Wiki%20pages/pics/Powershell%20Script.png)
-
-
-
 ```html
 $pat='$(AccessToken)'
 $token = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("PAT:$pat"))
@@ -72,4 +70,9 @@ $urlAdd="https://dev.azure.com/{DevOpsOrganization}/{ProjectName}/_apis/wiki/wik
 Invoke-WebRequest -Method PUT -Uri "$urlAdd" -Headers $headers -ContentType "application/json" -Body "$data"
 ```
 
+
+
+
+
+![alt text](https://github.com/kohithms/DevOpsCode/blob/master/Automatically%20Update%20Release%20Notes%20in%20the%20Azure%20DevOps%20Wiki%20pages/pics/Powershell%20Script.png)
 
