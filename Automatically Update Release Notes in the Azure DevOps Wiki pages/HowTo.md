@@ -1,5 +1,5 @@
 # Automatically Update Release Notes in the Azure DevOps Wiki pages
-## prerequisite 
+## Pre-Requisites 
 
 - Create a Azure DevOps Organization.
   - Reference link: https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/create-organization?view=azure-devops
@@ -19,15 +19,11 @@
 
 ## Pipeline Configuration
 
+### Task 1 : Generate Release Notes for Pipeline Builds or Releases
+
 - Add "Generate Release Notes for Pipeline Builds or Releases" Task in the pipeline. 
-
-
-![alt text](https://github.com/kohithms/DevOpsCode/blob/master/Automatically%20Update%20Release%20Notes%20in%20the%20Azure%20DevOps%20Wiki%20pages/pics/Generate%20Release%20Notes%20Build%20Task%20Config%20in%20pipeline.png)
-
-
 - Set "Output file" to "$(System.DefaultWorkingDirectory)\releasenotes.md"
  - Add below template in the task "Tempalte" field
-
 
 
 ```html
@@ -46,7 +42,10 @@
 ```
 
 
+![alt text](https://github.com/kohithms/DevOpsCode/blob/master/Automatically%20Update%20Release%20Notes%20in%20the%20Azure%20DevOps%20Wiki%20pages/pics/Generate%20Release%20Notes%20Build%20Task%20Config%20in%20pipeline.png)
 
+
+### Task 2 : Powershell Task
 
 - Add "Powershell Task" in the pipeline.
   - Reference Link : https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/powershell?view=azure-devops
